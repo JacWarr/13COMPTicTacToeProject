@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>13COMP Tic Tac Toe firebase</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="13COMP firebase">
+  <meta name="keywords" content="13COMP, firebase">
+  <meta name="author" content="Jac Warr">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- stylesheets *****************************************-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- P5.js ***********************************************-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.10.2/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.2/addons/p5.dom.min.js"></script>
+  <!--jQuery**************************************-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- firebase start **************************************-->
+  <!-- Firebase App (core Firebase SDK) is always required & must be listed 1st -->
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+  <!-- firebase end ****************************************-->
+
+  <!-- My modules ****************************************-->
+  <script defer src="ticTacToe.js"></script>
+  <script defer src="databaseModule.js"></script>
+  <script defer src="findGame.js"></script>
+  <script defer src="gamePage.js"></script>
+  <script defer src="pageManager.js"></script>
+  <script defer src="miscellaneous.js"></script>
+  <script defer src="registration.js"></script>
+</head>
+
+<!--*************************************************************
+//  BODY
+**************************************************************-->
+
+<body>
+  <div class="w3-row">
+    <!--Left Column-->
+    <div id="d_leftColumn" class="w3-col m3 w3-center fullHeight">
+      <div id="d_leftHeader" class="w3-container headerHeight">
+        <h1 id="h_leftPlayer">
+          Left
+        </h1>
+      </div>
+      <!--Displayed User Data on left column-->
+      <p id="p_leftUserEmail" class="userInfo">
+        Email
+      </p>
+      <p id="p_leftUserWins" class="userInfo">
+        Wins
+      </p>
+      <p id="p_leftUserTies" class="userInfo">
+        Ties
+      </p>
+      <p id="p_leftUserLosses" class="userInfo">
+        Losses
+      </p>
+
+      <!--Disconnect from the game-->
+      <div class="w3-container">
+        <button id="b_disconnect" class="w3-button" onclick="tTT_disconnect()">
+          <h3>Disconnect?</h3>
+        </button>
+      </div>
+    </div>
+
+    <!--Padding-->
+    <div class="w3-col m1 fullHeight w3-dark-gray">
+    </div>
+
+    <!--Middle Column-->
+    <div class="w3-col m4 w3-center w3-dark-gray fullHeight">
+      <div class="w3-container headerHeight">
+        <h1>
+          Tic Tac Toe
+        </h1>
+      </div>
+      <!--
+      Each of the main div elements in the middle column act as a different page
+      -->
+
+
+      <!--ticTacToeGrid-->
+      <div id="d_ticTacToeGrid">
+        <!--Game Row 1-->
+        <div class="w3-row">
+          <button id="b_ticTacToeGrid0" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(0)">
+          </button>
+          <button id="b_ticTacToeGrid1" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(1)">
+          </button>
+          <button id="b_ticTacToeGrid2" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(2)">
+          </button>
+        </div>
+
+        <!--Game Row 2-->
+        <div class="w3-row">
+          <button id="b_ticTacToeGrid3" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(3)">
+          </button>
+          <button id="b_ticTacToeGrid4" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(4)">
+          </button>
+          <button id="b_ticTacToeGrid5" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(5)">
+          </button>
+        </div>
+
+        <!--Game Row 3-->
+        <div class="w3-row">
+          <button id="b_ticTacToeGrid6" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(6)">
+          </button>
+          <button id="b_ticTacToeGrid7" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(7)">
+          </button>
+          <button id="b_ticTacToeGrid8" class="w3-col m4 w3-center w3-border w3-button tTTGrid"
+            onclick="tTT_gridClicked(8)">
+          </button>
+        </div>
+      </div>
+
+      <!--Whose turn is it?-->
+      <div class="w3-container">
+        <h3 id="h_whoseTurn">It is someones turn</h3>
+      </div>
+
+      <!--Start / Play again button-->
+      <div class="w3-container">
+        <button id="b_gameStart" class="w3-button" onclick="pM_pressedStart()">
+          <h3>Play!</h3>
+        </button>
+      </div>
+
+      <!--loginPage-->
+      <div id="d_loginPage" class="w3-dark-gray">
+        <button class="w3-button" onclick="dM_buttonLogin()">
+          <h2>
+            Login
+          </h2>
+        </button>
+      </div>
+
+      <!--registerPage-->
+      <div id="d_registerPage">
+        <h2>Regsister Information</h2>
+
+        <form class="w3-container">
+          <p>
+            <label>Age</label>
+            <input id="i_registerAge" class="w3-input" type="number" min="5" max="100"></input>
+          </p>
+
+          <p>
+            <label>Country</label>
+            <input id="i_registerCountry" class="w3-input" type="text"></input>
+          </p>
+        </form>
+        <button class="w3-button" onclick="rG_resgisterPressed()">
+          <h2>
+            Register!
+          </h2>
+        </button>
+      </div>
+
+      <!--findLobby-->
+      <div id="d_findLobby" class="w3-dark-gray">
+        <h2>
+          Choose a lobby to join
+        </h2>
+
+        <div id="d_reloadListButton" class="w3-container">
+          <button class="w3-button" onclick="fG_initialize()">
+            <h3>Reload Waiting Games List?</h3>
+          </button>
+        </div>
+
+        <!--Table of available lobbies to join-->
+        <table id="t_waitingLobbyList" class="w3-table">
+          <!--Header Row-->
+          <tr>
+            <th>Join</th>
+            <th>Host's Name</th>
+            <th>Available Since</th>
+          </tr>
+        </table>
+      </div>
+
+      <!--hostingLobby-->
+      <div id="d_hostingLobby">
+        <h3 id="h_waitingForUser">Waiting for a user to join</h3>
+        <p></p>
+      </div>
+    </div>
+
+    <!--Padding-->
+    <div class="w3-col m1 fullHeight w3-dark-gray">
+    </div>
+
+    <!--Right Column-->
+    <div id="d_rightColumn" class="w3-col m3 w3-center fullHeight">
+      <div id="d_rightHeader" class="w3-container headerHeight">
+        <h1 id="h_rightPlayer">
+          Right
+        </h1>
+      </div>
+      <div id="d_hostButton" class="w3-container">
+        <button class="w3-button" onclick="fG_hostGame()">
+          <h3>Host a game!</h3>
+        </button>
+      </div>
+      <!--Displayed User Data on right column-->
+      <p id="p_rightUserEmail" class="userInfo">
+        Email
+      </p>
+      <p id="p_rightUserWins" class="userInfo">
+        Wins
+      </p>
+      <p id="p_rightUserTies" class="userInfo">
+        Ties
+      </p>
+      <p id="p_rightUserLosses" class="userInfo">
+        Losses
+      </p>
+    </div>
+  </div>
+</body>
+
+</html>

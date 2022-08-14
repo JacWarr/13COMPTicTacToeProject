@@ -1,0 +1,58 @@
+.tTTGrid {
+  height: 25vh;
+  background-color: gray;
+  border-color: black;
+  border-width: 2px;
+  font-size: 100px;
+}
+.fullHeight {
+  height: 100vh;
+}
+.headerHeight {
+  height: 10vh;
+}
+.footerHeight {
+  height: 15vh;
+}
+.userInfo {
+  display: none;
+}
+#d_leftColumn {
+  background-color: #ffc163;
+}
+#d_leftHeader {
+  background-color: #ffa824;
+}
+#d_rightColumn {
+  background-color: #c375ff;
+}
+#d_rightHeader {
+  background-color: #a024ff;
+}
+#d_loginPage {
+  display : block;
+}
+#d_ticTacToeGrid {
+  display : none;
+}
+#d_findLobby {
+  display : none;
+}
+#d_hostButton {
+  display : none;
+}
+#d_hostingLobby {
+  display : none;
+}
+#d_registerPage {
+  display : none;
+}
+#b_gameStart {
+  display : none;
+}
+#h_whoseTurn {
+  display : none;
+}
+#b_disconnect {
+  display : none;
+}
